@@ -25,10 +25,18 @@ async def shutdown():
 
 @app.get("/attendance/{emp_id}", response_model=AttendancePercentage)
 async def get_attendance_percentage(emp_id: int):
-    query = "SELECT attendance_percentage(:emp_id) AS percentage;"
+    query = """
+    SELECT attendance_percentage(:emp_id) AS percentage;
+    """
+
     result = await database.fetch_one(query=query, values={"emp_id": emp_id})
+
     if result is None or result["percentage"] is None:
-        raise HTTPException(status_code=404, detail="Employee not found or no attendance")
+        raise HTTPException(
+            status_code=404,
+            detail="Employee not found or no attendance"
+        )
+
     return {"emp_id": emp_id, "percentage": result["percentage"]}
 
 

@@ -18,7 +18,7 @@ async def shutdown():
     await database.disconnect()
 
 
-# Endpoint: Get attendance percentage for one employees
+# Endpoint: Get attendance percentage for one user
 @app.get("/attendance/{emp_id}", response_model=AttendancePercentage)
 async def get_attendance_percentage(emp_id: int):
     query = "SELECT attendance_percentage(:emp_id) AS percentage;"

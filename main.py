@@ -4,17 +4,22 @@ from models import Attendance, AttendancePercentage, Employee, EmployeeDashboard
 from typing import List
 import asyncio
 
+# Initialize FastAPI application
 app = FastAPI(title="Employee Attendance API")
 
 
 @app.on_event("startup")
 async def startup():
+    # Connect to database on startup
     await database.connect()
+
+    # Start background listener for attendance updates
     asyncio.create_task(attendance_listener())
 
 
 @app.on_event("shutdown")
 async def shutdown():
+    # Disconnect database on shutdown
     await database.disconnect()
 
 

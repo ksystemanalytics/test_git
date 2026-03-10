@@ -64,17 +64,28 @@ async def list_employees():
 # Endpoint: Retrieve a specific user
 @app.get("/users/{id}", response_model=Employee)
 async def get_employee(id: int):
-    query = "SELECT * from employee e where e.id=(:emp_id)"
-    rows = await database.fetch_one(query=query, values={"emp_id": id})
-    return rows
+    query = "SELECT * FROM employee e WHERE e.id = (:emp_id)"
+
+    employee = await database.fetch_one(query=query, values={"emp_id": id})
+    return employee
+
 
 @app.patch("/attendance/{att_id}", response_model=Attendance)
 async def update_is_present_true(att_id: int):
-    query = "update attendances a set is_present = true where a.id=:att_id RETURNING emp_id, is_present, date, updated_at"
-    rows = await database.fetch_one(query=query, values={"att_id": att_id})
-    if rows is None:
+    query = """
+    UPDATE attendances a
+    SET is_present = true
+    WHERE a.id = :att_id
+    RETURNING emp_id, is_present, date, updated_at
+    """
+
+    updated_row = await database.fetch_one(query=query, values={"att_id": att_id})
+
+    if updated_row is None:
         raise HTTPException(status_code=404, detail="Attendance record not found")
-    return rows
+
+    return updated_row
+
 
 @app.get("/dashboard", response_model=List[EmployeeDashboard])
 async def list_employees_dashboard():

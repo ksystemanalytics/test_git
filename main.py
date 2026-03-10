@@ -89,7 +89,7 @@ async def update_is_present_true(att_id: int):
 
 @app.get("/dashboard", response_model=List[EmployeeDashboard])
 async def list_employees_dashboard():
-    query = "SELECT * from employee_dashboard"
-    rows = await database.fetch_all(query=query)
-    return rows
+    query = "SELECT * FROM employee_dashboard"
 
+    dashboard_rows = await database.fetch_all(query=query)
+    return dashboard_rows

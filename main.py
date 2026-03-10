@@ -42,16 +42,26 @@ async def get_attendance_percentage(emp_id: int):
 
 @app.get("/attendances", response_model=List[Attendance])
 async def list_attendances():
-    query = "SELECT emp_id, is_present, date FROM attendances ORDER BY date, emp_id;"
-    rows = await database.fetch_all(query=query)
-    return rows
+    query = """
+    SELECT emp_id, is_present, date
+    FROM attendances
+    ORDER BY date, emp_id;
+    """
 
+    attendance_rows = await database.fetch_all(query=query)
+    return attendance_rows
+
+
+# Endpoint: List all users
 @app.get("/users", response_model=List[Employee])
 async def list_employees():
-    query = "SELECT * from employee"
-    rows = await database.fetch_all(query=query)
-    return rows
+    query = "SELECT * FROM employee"
 
+    employees = await database.fetch_all(query=query)
+    return employees
+
+
+# Endpoint: Retrieve a specific user
 @app.get("/users/{id}", response_model=Employee)
 async def get_employee(id: int):
     query = "SELECT * from employee e where e.id=(:emp_id)"

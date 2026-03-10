@@ -1,0 +1,58 @@
+example git workflow:
+
+ Good grief. Don't listen when he says "ignore rebase." Rebase is love. Rebase is life. Actually, git pull --rebase is life.
+
+Honestly, git was some mysterious beast to me for a good long while. Then I learned to use gitk (I develop in an open source shop, no idea if that's available outside Linux), and to look at commits as a just (effectively) the differences from the previous commit.
+
+So, instead of trying to smash things together with a complicated merge (especially if there are multiple deviations, developers, etc.), rebase! Rebase effectively rewinds your commits and applies the specified branch, then reapplies your commits.
+
+So, here's my daily flow: git status
+
+git checkout master
+
+git pull --rebase
+
+(Hopefully we just fast-forwarded to the tip of origin/master).
+
+gitk (to review any new commits to see if my stuff has been touched)
+
+git checkout -b <jira task number>
+
+..... Do work .....
+
+git status
+
+git add <directory> (as many times as necessary)
+
+git commit -m "<task number>- useful description in a twitter length message"
+
+git log
+
+(Copy the hash of the commit you just made)
+
+git checkout master
+
+git pull --rebase
+
+git cherry-pick <hash you copied>
+
+git push origin master
+
+git branch -D <task number>
+
+Skip those swirly fancy branching lines and keep everything in a tidy and orderly single file line. 
+
+
+--------------------------------------------------------------------
+
+https://learngitbranching.js.org/
+https://glasskube.dev/products/package-manager/guides/git/
+https://www.reddit.com/r/learnprogramming/comments/44c7uo/learn_enough_git_to_be_dangerous/
+https://docs.github.com/en/get-started/start-your-journey/git-and-github-learning-resources
+https://itoshkov.github.io/git-tutorial.html
+https://jwiegley.github.io/git-from-the-bottom-up/
+https://wizardzines.com/comics/
+https://jvns.ca/
+https://zwischenzugs.com/
+https://github.com/georgeowen1993/learn-git-the-hard-way
+https://zwischenzugs.com/2018/04/05/learn-git-rebase-interactively/
